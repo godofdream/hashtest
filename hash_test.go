@@ -53,6 +53,15 @@ import (
 	"github.com/surge/cityhash"
 
 	tsip "github.com/dgryski/trifles/tsip/go"
+
+	// "crypto/md5"
+	// "crypto/rand"
+	// "crypto/sha1"
+	// "crypto/sha256"
+	// "crypto/sha512"
+	"github.com/minio/highwayhash"
+	//sha256Avx512 "github.com/minio/sha256-simd"
+	//"golang.org/x/crypto/blake2b"
 )
 
 // 32 bit hashes
@@ -238,39 +247,78 @@ var h64farmhash = func(k []byte) uint64 { return farmhash.Hash64(k) }
 
 func Benchmark64FarmHash(b *testing.B) { benchmarkHash64(b, "Farmhash", h64farmhash) }
 
+var key32 []byte = []byte("18086354421675971832404208891150")
+
+var h64highwayhash = func(k []byte) uint64 { return highwayhash.Sum64(k, key32) }
+
+func Benchmark64highwayhash(b *testing.B) { benchmarkHash64(b, "highwayhash", h64highwayhash) }
+
+var h128highwayhash = func(k []byte) [16]byte { return highwayhash.Sum128(k, key32) }
+
+func Benchmark128highwayhash(b *testing.B) { benchmarkHash128(b, "highwayhash", h128highwayhash) }
+
+var h256highwayhash = func(k []byte) [32]byte { return highwayhash.Sum(k, key32) }
+
+func Benchmark256highwayhash(b *testing.B) { benchmarkHash256(b, "highwayhash", h256highwayhash) }
+
 var (
 	key0, key1 uint64
 	buf        = make([]byte, 8<<10)
 )
-
-func benchmarkHash64(b *testing.B, str string, h func([]byte) uint64) {
-	var sizes = []int{4, 8, 16, 32, 64, 96, 128, 1024, 8192}
-	for _, n := range sizes {
-		b.Run(strconv.Itoa(n), func(b *testing.B) { benchmarkHash64n(b, int64(n), h) })
-	}
-}
-
-var total uint64
-
-func benchmarkHash64n(b *testing.B, size int64, h func([]byte) uint64) {
-	b.SetBytes(size)
-	for i := 0; i < b.N; i++ {
-		total += h(buf[:size])
-	}
-}
+var sizes = []int{4, 8, 16, 32, 64, 96, 128, 1024, 8192}
+var total32 uint32
+var total64 uint64
+var total128 [16]byte
+var total256 [32]byte
 
 func benchmarkHash32(b *testing.B, str string, h func([]byte) uint32) {
-	var sizes = []int{4, 8, 16, 32, 64, 96, 128, 1024, 8192}
 	for _, n := range sizes {
 		b.Run(strconv.Itoa(n), func(b *testing.B) { benchmarkHash32n(b, int64(n), h) })
 	}
 }
 
-var total32 uint32
-
 func benchmarkHash32n(b *testing.B, size int64, h func([]byte) uint32) {
 	b.SetBytes(size)
 	for i := 0; i < b.N; i++ {
 		total32 += h(buf[:size])
+	}
+}
+
+func benchmarkHash64(b *testing.B, str string, h func([]byte) uint64) {
+	for _, n := range sizes {
+		b.Run(strconv.Itoa(n), func(b *testing.B) { benchmarkHash64n(b, int64(n), h) })
+	}
+}
+
+func benchmarkHash64n(b *testing.B, size int64, h func([]byte) uint64) {
+	b.SetBytes(size)
+	for i := 0; i < b.N; i++ {
+		total64 += h(buf[:size])
+	}
+}
+
+func benchmarkHash128(b *testing.B, str string, h func([]byte) [16]byte) {
+	for _, n := range sizes {
+		b.Run(strconv.Itoa(n), func(b *testing.B) { benchmarkHash128n(b, int64(n), h) })
+	}
+}
+
+func benchmarkHash128n(b *testing.B, size int64, h func([]byte) [16]byte) {
+	b.SetBytes(size)
+	for i := 0; i < b.N; i++ {
+		total128 += h(buf[:size])
+	}
+}
+
+func benchmarkHash256(b *testing.B, str string, h func([]byte) [32]byte) {
+	for _, n := range sizes {
+		b.Run(strconv.Itoa(n), func(b *testing.B) { benchmarkHash256n(b, int64(n), h) })
+	}
+}
+
+func benchmarkHash128n(b *testing.B, size int64, h func([]byte) [32]byte) {
+	b.SetBytes(size)
+	for i := 0; i < b.N; i++ {
+		total256 += h(buf[:size])
 	}
 }

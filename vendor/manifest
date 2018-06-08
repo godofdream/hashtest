@@ -1,0 +1,191 @@
+{
+	"version": 0,
+	"dependencies": [
+		{
+			"importpath": "github.com/OneOfOne/xxhash",
+			"repository": "https://github.com/OneOfOne/xxhash",
+			"vcs": "git",
+			"revision": "6def279d2ce6c81a79dd1c1be580f03bb216fb8a",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/aviddiviner/go-murmur",
+			"repository": "https://github.com/aviddiviner/go-murmur",
+			"vcs": "git",
+			"revision": "b9740d71e571c1f4ccb570b9bc7f352329d3e600",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/cespare/xxhash",
+			"repository": "https://github.com/cespare/xxhash",
+			"vcs": "git",
+			"revision": "48099fad606eafc26e3a569fad19ff510fff4df6",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/dchest/siphash",
+			"repository": "https://github.com/dchest/siphash",
+			"vcs": "git",
+			"revision": "4ebf1de738443ea7f45f02dc394c4df1942a126d",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/dgryski/dgohash",
+			"repository": "https://github.com/dgryski/dgohash",
+			"vcs": "git",
+			"revision": "60798d4c29a0ed71f428818947c2f2c07ab518f1",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/dgryski/go-farm",
+			"repository": "https://github.com/dgryski/go-farm",
+			"vcs": "git",
+			"revision": "2de33835d10275975374b37b2dcfd22c9020a1f5",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/dgryski/go-highway",
+			"repository": "https://github.com/dgryski/go-highway",
+			"vcs": "git",
+			"revision": "6218551990942dee1a9689662919d4d4601b86ce",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/dgryski/go-marvin32",
+			"repository": "https://github.com/dgryski/go-marvin32",
+			"vcs": "git",
+			"revision": "b9e766f9d148d0c81c33a69245467d14c11ab3f4",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/dgryski/go-metro",
+			"repository": "https://github.com/dgryski/go-metro",
+			"vcs": "git",
+			"revision": "280f6062b5bc97ee9b9afe7f2ccb361e59845baa",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/dgryski/go-sip13",
+			"repository": "https://github.com/dgryski/go-sip13",
+			"vcs": "git",
+			"revision": "9cdcd33273afbf1d7d6da5620e103746294dabda",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/dgryski/go-spooky",
+			"repository": "https://github.com/dgryski/go-spooky",
+			"vcs": "git",
+			"revision": "ed3d087f40e29d80bfe4d9c1c1f2d4885eb1b82a",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/dgryski/go-stadtx",
+			"repository": "https://github.com/dgryski/go-stadtx",
+			"vcs": "git",
+			"revision": "3c3d9b328c24a9b5ecd370654cd6e9d60a85752d",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/dgryski/go-t1ha",
+			"repository": "https://github.com/dgryski/go-t1ha",
+			"vcs": "git",
+			"revision": "d42c050643ba3f1f03c1563aaccd3b3035098560",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/dgryski/trifles/tsip/go",
+			"repository": "https://github.com/dgryski/trifles",
+			"vcs": "git",
+			"revision": "fb6752171ea11a9a1a76a7627db6290dbd4ceaf0",
+			"branch": "master",
+			"path": "/tsip/go",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/intel-go/cpuid",
+			"repository": "https://github.com/intel-go/cpuid",
+			"vcs": "git",
+			"revision": "ec7157e9698925f3ed066c1eeecb7059e0c3422e",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/leemcloughlin/gofarmhash",
+			"repository": "https://github.com/leemcloughlin/gofarmhash",
+			"vcs": "git",
+			"revision": "0a055c5b87a8c55ce83459cbf2776b563822a942",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/minio/highwayhash",
+			"repository": "https://github.com/minio/highwayhash",
+			"vcs": "git",
+			"revision": "85fc8a2dacad36a6beb2865793cd81363a496696",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/minio/sha256-simd",
+			"repository": "https://github.com/minio/sha256-simd",
+			"vcs": "git",
+			"revision": "ad98a36ba0da87206e3378c556abbfeaeaa98668",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/opennota/fasthash",
+			"repository": "https://github.com/opennota/fasthash",
+			"vcs": "git",
+			"revision": "b619b4c25b8109061ba3c7fec088f9cb289b548c",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/rbastic/go-zaphod64",
+			"repository": "https://github.com/rbastic/go-zaphod64",
+			"vcs": "git",
+			"revision": "51824b1f1f4db0bdeb89c6a53ccdac361e1fc738",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/spaolacci/murmur3",
+			"repository": "https://github.com/spaolacci/murmur3",
+			"vcs": "git",
+			"revision": "f09979ecbc725b9e6d41a297405f65e7e8804acc",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/surge/cityhash",
+			"repository": "https://github.com/surge/cityhash",
+			"vcs": "git",
+			"revision": "cdd6a94144ab18dd21ad865a3aa6837585bffa15",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "golang.org/x/sys/cpu",
+			"repository": "https://go.googlesource.com/sys",
+			"vcs": "git",
+			"revision": "9527bec2660bd847c050fda93a0f0c6dee0800bb",
+			"branch": "master",
+			"path": "/cpu",
+			"notests": true
+		}
+	]
+}
