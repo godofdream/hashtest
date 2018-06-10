@@ -1,26 +1,18 @@
 package main
 
 import (
-	// "crypto/md5"
-	// "crypto/sha1"
-	// "crypto/sha256"
-	// "crypto/sha512"
-	// "math/rand"
-	// "testing"
-	//
-	//"hash/adler32"
-	// "hash/crc32"
+	"crypto/md5"
+	"crypto/sha1"
 	"crypto/sha256"
+	"crypto/sha512"
 	"fmt"
+	"hash/adler32"
 	"hash/crc32"
 	"hash/crc64"
 	"hash/fnv"
 	"strconv"
 	"testing"
-	// "hash/fnv"
-	//
-	// "github.com/pborman/uuid"
-	//
+
 	// creachadairCity "bitbucket.org/creachadair/cityhash"
 	// jpathyCity "bitbucket.org/jpathy/dmc/cityhash"
 	// surgeCity "github.com/surge/cityhash"
@@ -30,10 +22,6 @@ import (
 	// huichenMurmur "github.com/huichen/murmur"
 	// reuseeMurmur "github.com/reusee/mmh3"
 	// zhangMurmur "github.com/zhangxinngang/murmur"
-	//
-	// farmhash "github.com/leemcloughlin/gofarmhash"
-	//
-	// "github.com/minio/highwayhash"
 
 	xxhash "github.com/OneOfOne/xxhash"
 	murmur2 "github.com/aviddiviner/go-murmur"
@@ -48,21 +36,19 @@ import (
 	"github.com/dgryski/go-spooky"
 	"github.com/dgryski/go-stadtx"
 	"github.com/dgryski/go-t1ha"
+	tsip "github.com/dgryski/trifles/tsip/go"
 	farmhash "github.com/leemcloughlin/gofarmhash"
 	"github.com/opennota/fasthash"
 	"github.com/rbastic/go-zaphod64"
 	murmur3 "github.com/spaolacci/murmur3"
 	"github.com/surge/cityhash"
 
-	tsip "github.com/dgryski/trifles/tsip/go"
-
-	// "crypto/md5"
-	// "crypto/rand"
-	// "crypto/sha1"
-	// "crypto/sha512"
 	"github.com/minio/highwayhash"
 	//sha256Avx512 "github.com/minio/sha256-simd"
 	"golang.org/x/crypto/blake2b"
+	"golang.org/x/crypto/md4"
+	"golang.org/x/crypto/ripemd160"
+	"golang.org/x/crypto/sha3"
 )
 
 // 32 bit hashes
@@ -223,7 +209,11 @@ func Benchmark64bitTsip(b *testing.B) {
 func Benchmark32bitFarmHash(b *testing.B) { benchmarkHash(b, farmhash.Hash32) }
 func Benchmark64bitFarmHash(b *testing.B) { benchmarkHash(b, farmhash.Hash64) }
 
+//func Benchmark128bitFarmHash(b *testing.B) { benchmarkHash(b, farmhash.Hash128) } //TODO
+//func Benchmark128bitCityHash(b *testing.B) { benchmarkHash(b, farmhash.CityHash128) } TODO
+
 func Benchmark256bitSHA256(b *testing.B) { benchmarkHash(b, sha256.Sum256) }
+func Benchmark224bitSHA256(b *testing.B) { benchmarkHash(b, sha256.Sum224) }
 
 var key32 []byte = []byte("18086354421675971832404208891150")
 
@@ -243,17 +233,34 @@ func Benchmark256bitBlake2b(b *testing.B) { benchmarkHash(b, blake2b.Sum256) }
 func Benchmark384bitBlake2b(b *testing.B) { benchmarkHash(b, blake2b.Sum384) }
 func Benchmark512bitBlake2b(b *testing.B) { benchmarkHash(b, blake2b.Sum512) }
 
+func Benchmark256bitSHA512(b *testing.B) { benchmarkHash(b, sha512.Sum512_256) }
+func Benchmark384bitSHA512(b *testing.B) { benchmarkHash(b, sha512.Sum384) }
+func Benchmark512bitSHA512(b *testing.B) { benchmarkHash(b, sha512.Sum512) }
+
+func Benchmark160bitSHA1(b *testing.B)      { benchmarkHash(b, sha1.Sum) }
+func Benchmark128bitMD5(b *testing.B)       { benchmarkHash(b, md5.Sum) }
+func Benchmark160bitRipemd160(b *testing.B) { benchmarkHash(b, ripemd160.New().Sum) }
+func Benchmark224bitSHA3(b *testing.B)      { benchmarkHash(b, sha3.Sum224) }
+func Benchmark256bitSHA3(b *testing.B)      { benchmarkHash(b, sha3.Sum256) }
+func Benchmark384bitSHA3(b *testing.B)      { benchmarkHash(b, sha3.Sum384) }
+func Benchmark512bitSHA3(b *testing.B)      { benchmarkHash(b, sha3.Sum512) }
+func Benchmark32bitAdler32(b *testing.B)    { benchmarkHash(b, adler32.Checksum) }
+func Benchmark128bitMD4(b *testing.B)       { benchmarkHash(b, md4.New().Sum) }
+
 var (
 	key0, key1 uint64
 	buf        = make([]byte, 8<<10)
 )
-var sizes = []int{4, 8, 16, 32, 64, 96, 128, 1024, 8192}
+var sizes = []int{4, 8, 16, 32, 64, 96, 128, 512, 1024, 2048, 4096, 8192}
 var total32 uint32
 var total64 uint64
 var total128 [16]byte
+var total160 [20]byte
+var total224 [28]byte
 var total256 [32]byte
 var total384 [48]byte
 var total512 [64]byte
+var totalb []byte
 
 func benchmarkHash(b *testing.B, h interface{}) {
 	for _, n := range sizes {
@@ -264,6 +271,10 @@ func benchmarkHash(b *testing.B, h interface{}) {
 			b.Run(strconv.Itoa(n), func(b *testing.B) { benchmarkHash64n(b, int64(n), h.(func([]byte) uint64)) })
 		case func([]byte) [16]byte:
 			b.Run(strconv.Itoa(n), func(b *testing.B) { benchmarkHash128n(b, int64(n), h.(func([]byte) [16]byte)) })
+		case func([]byte) [20]byte:
+			b.Run(strconv.Itoa(n), func(b *testing.B) { benchmarkHash160n(b, int64(n), h.(func([]byte) [20]byte)) })
+		case func([]byte) [28]byte:
+			b.Run(strconv.Itoa(n), func(b *testing.B) { benchmarkHash224n(b, int64(n), h.(func([]byte) [28]byte)) })
 		case func([]byte) [32]byte:
 			b.Run(strconv.Itoa(n), func(b *testing.B) { benchmarkHash256n(b, int64(n), h.(func([]byte) [32]byte)) })
 		case func([]byte) [48]byte:
@@ -272,6 +283,8 @@ func benchmarkHash(b *testing.B, h interface{}) {
 			b.Run(strconv.Itoa(n), func(b *testing.B) { benchmarkHash512n(b, int64(n), h.(func([]byte) [64]byte)) })
 		case func([]byte) (uint64, uint64):
 			b.Run(strconv.Itoa(n), func(b *testing.B) { benchmarkHash128_2n(b, int64(n), h.(func([]byte) (uint64, uint64))) })
+		case func([]byte) []byte:
+			b.Run(strconv.Itoa(n), func(b *testing.B) { benchmarkHashn(b, int64(n), h.(func([]byte) []byte)) })
 		default:
 			fmt.Printf("I don't know about type %T!\n", v)
 		}
@@ -306,6 +319,20 @@ func benchmarkHash128_2n(b *testing.B, size int64, h func([]byte) (uint64, uint6
 	}
 }
 
+func benchmarkHash160n(b *testing.B, size int64, h func([]byte) [20]byte) {
+	b.SetBytes(size)
+	for i := 0; i < b.N; i++ {
+		total160 = h(buf[:size])
+	}
+}
+
+func benchmarkHash224n(b *testing.B, size int64, h func([]byte) [28]byte) {
+	b.SetBytes(size)
+	for i := 0; i < b.N; i++ {
+		total224 = h(buf[:size])
+	}
+}
+
 func benchmarkHash256n(b *testing.B, size int64, h func([]byte) [32]byte) {
 	b.SetBytes(size)
 	for i := 0; i < b.N; i++ {
@@ -324,5 +351,12 @@ func benchmarkHash512n(b *testing.B, size int64, h func([]byte) [64]byte) {
 	b.SetBytes(size)
 	for i := 0; i < b.N; i++ {
 		total512 = h(buf[:size])
+	}
+}
+
+func benchmarkHashn(b *testing.B, size int64, h func([]byte) []byte) {
+	b.SetBytes(size)
+	for i := 0; i < b.N; i++ {
+		totalb = h(buf[:size])
 	}
 }
