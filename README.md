@@ -10,28 +10,7 @@ in the implementation, a bad implementation of a good hash is useless.
 
 ## Implementations
 
-The code for these implementations comes from:
-
-```
-xxhash "github.com/OneOfOne/xxhash"
-murmur2 "github.com/aviddiviner/go-murmur"
-xxhashfast "github.com/cespare/xxhash"
-dchestsip "github.com/dchest/siphash"
-"github.com/dgryski/go-farm"
-highway "github.com/dgryski/go-highway"
-"github.com/dgryski/go-marvin32"
-"github.com/dgryski/go-metro"
-"github.com/dgryski/go-sip13"
-"github.com/dgryski/go-spooky"
-"github.com/dgryski/go-stadtx"
-"github.com/dgryski/go-t1ha"
-farmhash "github.com/leemcloughlin/gofarmhash"
-"github.com/opennota/fasthash"
-"github.com/rbastic/go-zaphod64"
-murmur3 "github.com/spaolacci/murmur3"
-"github.com/surge/cityhash"
-tsip "github.com/dgryski/trifles/tsip/go"
-```
+See source of implementations in "hash_test.go" and vendor folder
 
 ## Results
 
@@ -307,7 +286,64 @@ Benchmark64FarmHash/96-4          	20000000	        76.6 ns/op	1253.81 MB/s
 Benchmark64FarmHash/128-4         	20000000	        73.2 ns/op	1748.69 MB/s
 Benchmark64FarmHash/1024-4        	 3000000	       493 ns/op	2077.06 MB/s
 Benchmark64FarmHash/8192-4        	  300000	      3879 ns/op	2111.80 MB/s
+Benchmark128bitMurMur3/4-4     	50000000	        26.8 ns/op	 149.44 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitMurMur3/8-4     	50000000	        28.4 ns/op	 281.24 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitMurMur3/16-4    	50000000	        27.3 ns/op	 585.71 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitMurMur3/32-4    	50000000	        30.6 ns/op	1044.97 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitMurMur3/64-4    	50000000	        38.1 ns/op	1681.16 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitMurMur3/96-4    	30000000	        45.7 ns/op	2101.60 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitMurMur3/128-4   	30000000	        53.8 ns/op	2377.58 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitMurMur3/512-4   	10000000	       149 ns/op	3428.44 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitMurMur3/1024-4  	 5000000	       275 ns/op	3718.94 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitMurMur3/2048-4  	 3000000	       534 ns/op	3834.80 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitMurMur3/4096-4  	 1000000	      1042 ns/op	3930.62 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitMurMur3/8192-4  	 1000000	      2062 ns/op	3971.52 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitHighwayhash/4-4 	20000000	        86.7 ns/op	  46.12 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitHighwayhash/8-4 	20000000	        86.6 ns/op	  92.38 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitHighwayhash/16-4         	20000000	        93.0 ns/op	 172.05 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitHighwayhash/32-4         	20000000	        65.3 ns/op	 489.84 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitHighwayhash/64-4         	20000000	        67.8 ns/op	 944.34 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitHighwayhash/96-4         	20000000	        72.0 ns/op	1333.15 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitHighwayhash/128-4        	20000000	        76.4 ns/op	1674.69 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitHighwayhash/512-4        	10000000	       123 ns/op	4161.94 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitHighwayhash/1024-4       	10000000	       187 ns/op	5463.07 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitHighwayhash/2048-4       	 5000000	       316 ns/op	6471.76 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitHighwayhash/4096-4       	 3000000	       580 ns/op	7059.29 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitHighwayhash/8192-4       	 1000000	      1092 ns/op	7497.87 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitMD5/4-4                  	10000000	       166 ns/op	  24.05 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitMD5/8-4                  	10000000	       166 ns/op	  48.08 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitMD5/16-4                 	10000000	       165 ns/op	  96.80 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitMD5/32-4                 	10000000	       163 ns/op	 195.91 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitMD5/64-4                 	 5000000	       256 ns/op	 249.65 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitMD5/96-4                 	 5000000	       262 ns/op	 365.46 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitMD5/128-4                	 5000000	       356 ns/op	 359.49 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitMD5/512-4                	 2000000	       937 ns/op	 546.06 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitMD5/1024-4               	 1000000	      1717 ns/op	 596.23 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitMD5/2048-4               	  500000	      3274 ns/op	 625.39 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitMD5/4096-4               	  200000	      6407 ns/op	 639.27 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitMD5/8192-4               	  100000	     12720 ns/op	 643.99 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitMD4/4-4                  	 5000000	       315 ns/op	  12.69 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitMD4/8-4                  	 5000000	       315 ns/op	  25.36 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitMD4/16-4                 	 5000000	       316 ns/op	  50.53 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitMD4/32-4                 	 5000000	       317 ns/op	 100.88 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitMD4/64-4                 	 5000000	       315 ns/op	 202.57 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitMD4/96-4                 	 5000000	       316 ns/op	 302.85 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitMD4/128-4                	 5000000	       316 ns/op	 404.84 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitMD4/512-4                	 5000000	       316 ns/op	1619.89 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitMD4/1024-4               	 5000000	       316 ns/op	3238.56 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitMD4/2048-4               	 5000000	       317 ns/op	6448.86 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitMD4/4096-4               	 5000000	       316 ns/op	12948.95 MB/s	       0 B/op	       0 allocs/op
+Benchmark128bitMD4/8192-4               	  500000	      2727 ns/op	3003.88 MB/s	   10240 B/op	       1 allocs/op
+```
 
+# Run
+```
+go test -bench=32bit.
+go test -bench=64bit.
+go test -bench=128bit.
+go test -bench=256bit.
+go test -bench=384bit.
+go test -bench=512bit.
 ```
 
 # Conclusion
